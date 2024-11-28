@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.core import mail
 from django.conf import settings
+from django.contrib import messages
 
 # Create your views here.
 def contato(request):
@@ -17,6 +18,7 @@ def contato(request):
                 post.cleaned_data["email"], 
                 [post.cleaned_data["email"], settings.DEFAULT_FROM_EMAIL]
                 )
+            messages. success(request, 'Contato enviado com sucesso!')
             return HttpResponseRedirect('/contact/')
         else:
             return render(request, 'contact/contact_form.html', {'form': post})

@@ -18,3 +18,6 @@ class HomeTest(TestCase):
     def test_link_subscription(self):
         self.assertContains(
             self.response, 'href="{}"'.format(r('subscriptions:new')))
+    
+    def test_linkContact(self):
+        self.assertContains(self.response, 'href="/contact"')
