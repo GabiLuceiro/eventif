@@ -3,6 +3,8 @@ from django.shortcuts import resolve_url as r
 
 
 class HomeTest(TestCase):
+    fixtures = ['keynotes.json',]
+
     def setUp(self):
         self.response = self.client.get(r('home'))
 
@@ -19,12 +21,17 @@ class HomeTest(TestCase):
         self.assertContains(
             self.response, 'href="{}"'.format(r('subscriptions:new')))
 
+    def test_linkContact(self):
+        self.assertContains(self.response, 'href="/contact"')
+
     def test_speakers(self):
         contents = [
             'Grace Hopper',
             'https://abre.ai/hopper-pic',
+            'href="{}"'.format(r('speaker_detail', slug='grace-hopper')),
             'Alan Turing',
-            'https://abre.ai/turing-pic'
+            'https://abre.ai/turing-pic',
+            'href="{}"'.format(r('speaker_detail', slug='alan-turing'))
         ]
         for expected in contents:
             with self.subTest():
