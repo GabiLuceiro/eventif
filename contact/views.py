@@ -5,12 +5,14 @@ from django.template.loader import render_to_string
 from django.core import mail
 from django.conf import settings
 from django.contrib import messages
+from contact.models import ContactModel
 
 # Create your views here.
 def contato(request):
     if request.method == 'POST':
         post = FormContact(request.POST)
         if post.is_valid() == True:
+            contato = ContactModel.objects.create(**post.cleaned_data)
             email = render_to_string('contact/contact_email.txt', post.cleaned_data)
             mail.send_mail(
                 "Mensagem enviada", 
